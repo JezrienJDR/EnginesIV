@@ -45,6 +45,11 @@ public class WeaponComponent : MonoBehaviour
     protected ReticleScript ret;
     protected Camera MainCam;
 
+    [SerializeField]
+    private Transform MuzzleFlashLoc;
+
+    [SerializeField]
+    private ParticleSystem MuzzleFlash;
 
     private void Awake()
     {
@@ -67,6 +72,7 @@ public class WeaponComponent : MonoBehaviour
         {
             firing = true;
             InvokeRepeating(nameof(Fire), stats.FireStartDelay, stats.FireRate);
+            
         }
     }
 
@@ -74,10 +80,12 @@ public class WeaponComponent : MonoBehaviour
     {
         firing = false;
         CancelInvoke(nameof(Fire));
+        
     }
 
     public virtual void Fire()
     {
+        MuzzleFlash.Play();
         stats.ShotsInClip--;
     }
 

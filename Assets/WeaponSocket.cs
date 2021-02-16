@@ -60,6 +60,8 @@ public class WeaponSocket : InputMonobehaviour
         GripIK = Equipped.GripLocation;
 
         PlayerAnim.SetInteger("WeaponType", (int)Equipped.stats.type);
+
+        PlayerEvents.Invoke_OnWeaponEquippred(Equipped);
     }
 
 

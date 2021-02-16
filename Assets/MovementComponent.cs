@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.AI;
 
 namespace Character
 {
@@ -28,6 +29,12 @@ namespace Character
 
         private Rigidbody rb;
 
+        private NavMeshAgent playerAgent;
+
+        public LayerMask JumpLayerMask;
+        public float JumpThreshold = 0.1f;
+
+
         // Animator Hashes
 
         private readonly int x = UnityEngine.Animator.StringToHash("x");
@@ -45,6 +52,8 @@ namespace Character
             animr = GetComponent<Animator>();
 
             rb = GetComponent<Rigidbody>();
+
+            playerAgent = GetComponent<NavMeshAgent>();
         }
 
         private void Update()
@@ -65,7 +74,8 @@ namespace Character
 
             //Vector3 move = 
 
-            transform.position += movementDir * currentSpeed;
+            //transform.position += movementDir * currentSpeed;
+            playerAgent.Move(movementDir * currentSpeed);
         }
 
         private NewControls Controls;
@@ -113,9 +123,40 @@ namespace Character
         public void OnJump(InputValue val)
         {
             //if (val.isPressed) return;
+            if(playCon.IsJumping)
+            {
+                return;
+            }
+
+            playerAgent.isStopped = true;
+            playerAgent.enabled = false;
+
             playCon.IsJumping = true;
             animr.SetBool("isJumping", true);
-           rb.AddForce((transform.up + moveDir) * jumpForce, ForceMode.Impulse);
+            rb.AddForce((transform.up + moveDir) * jumpForce, ForceMode.Impulse);
+
+            InvokeRepeating(nameof(LandingCheck), 0.7f, 0.1f);
+        }
+
+        private void LandingCheck()
+        {
+            if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, 100.0f, JumpLayerMask))
+            {
+                if(hit.distance < JumpThreshold)
+                {
+                    playerAgent.enabled = true;
+                    playerAgent.isStopped = false;
+
+                    playCon.IsJumping = false;
+                    animr.SetBool("isJumping", false);
+
+                    CancelInvoke(nameof(LandingCheck));
+                }
+                else
+                {
+                    return;
+                }
+            }
         }
 
         public void OnEnable()
@@ -144,8 +185,8 @@ namespace Character
                 return;
             }
 
-            playCon.IsJumping = false;
-            animr.SetBool("isJumping", false);
+            //playCon.IsJumping = false;
+            //animr.SetBool("isJumping", false);
         }
 
     }

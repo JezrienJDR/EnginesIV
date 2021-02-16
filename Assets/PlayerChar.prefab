@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1919105996}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.661, y: 0.566, z: -0.93}
+  m_LocalPosition: {x: 0.909, y: 0.781, z: -0.894}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1105761246951471267}
@@ -3660,6 +3660,8 @@ GameObject:
   - component: {fileID: 6616499901393550988}
   - component: {fileID: 5383465017263210547}
   - component: {fileID: 2084924614657145142}
+  - component: {fileID: 592825139589279962}
+  - component: {fileID: 6434295041376315460}
   m_Layer: 0
   m_Name: PlayerChar
   m_TagString: Untagged
@@ -3676,7 +3678,7 @@ Transform:
   m_GameObject: {fileID: 1104244313667389293}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.601474, y: 0.9999981, z: -9.65}
-  m_LocalScale: {x: 1, y: 1, z: 0.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1101122312023732617}
   - {fileID: 1105964141564026407}
@@ -3746,7 +3748,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!136 &5582254846875643899
 CapsuleCollider:
@@ -3778,6 +3780,7 @@ MonoBehaviour:
   IsReloading: 0
   IsRunning: 0
   IsJumping: 0
+  ReticleComponent: {fileID: 0}
 --- !u!114 &5383465017263210547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3806,7 +3809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 011b4b4a3bd1a6b438a05d233be44e3d, type: 3}
-  m_NotificationBehavior: 1
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -3817,12 +3820,65 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9fa67cdc-c13f-4ead-9345-d7f2e1f435b6
+    m_ActionName: ThirdPerson/Move[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 41902460-3a48-47a4-845b-9b1fe6f49516
+    m_ActionName: ThirdPerson/Jump[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0ec51591-3da5-4435-809e-2c9a639c631a
+    m_ActionName: ThirdPerson/Fire
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fb59cadc-6b4c-4c6c-8ca8-669b1b705722
+    m_ActionName: ThirdPerson/Look[/XInputControllerWindows/rightStick/up,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/rightStick/right,/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d946f84c-dcf0-400d-bfac-c1a4e3d34ad2
+    m_ActionName: ThirdPerson/Run[/XInputControllerWindows/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b8bfa9ba-6b2e-4962-828d-8ac4e2fda4bf
+    m_ActionName: ThirdPerson/Reload[/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: ThirdPerson
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &592825139589279962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104244313667389293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7356726867aef294b9c17d1d01397939, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 3958927687960769159, guid: ac3f5836069381b48b1d2cab051bab5e, type: 3}
+  socket: {fileID: 7178409406546384051}
+--- !u!114 &6434295041376315460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104244313667389293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0541a754854cd6147bb729256f7c597c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotationPower: 10
+  HorizontalDamping: 1
+  followTarget: {fileID: 1919105996}
 --- !u!1 &1104255027729628187
 GameObject:
   m_ObjectHideFlags: 0
@@ -6017,10 +6073,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8459925577936931011}
-  m_LocalRotation: {x: -0.51197344, y: -0.67182547, z: 0.42933863, w: 0.31969056}
+  m_LocalRotation: {x: -0.32244655, y: 0.42383793, z: -0.64343876, w: 0.5498874}
   m_LocalPosition: {x: 0.08, y: -0.016, z: -0.012}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1106097667524816975}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 14.45, y: -116.16, z: 83.65}
+  m_LocalEulerAnglesHint: {x: -191, y: -116.16, z: 87.9}

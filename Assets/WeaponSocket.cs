@@ -13,6 +13,7 @@ public class WeaponSocket : InputMonobehaviour
     public Transform socket;
 
     // Components
+    public PlayerController playerCon => playCon;
     private PlayerController playCon;
     private ReticleScript reticle;
     private Animator PlayerAnim;
@@ -26,6 +27,7 @@ public class WeaponSocket : InputMonobehaviour
     private static readonly int IsReloadingHash = Animator.StringToHash("IsReloading");
     private static readonly int IsFiringHash = Animator.StringToHash("IsFiring");
 
+    private WeaponComponent Equipped;
 
     private new void Awake()
     {
@@ -51,30 +53,77 @@ public class WeaponSocket : InputMonobehaviour
 
         spawnedWeapon.transform.parent = socket;
 
-        WeaponComponent weaponComp = spawnedWeapon.GetComponent<WeaponComponent>();
-        GripIK = weaponComp.GripLocation;
+        Equipped = spawnedWeapon.GetComponent<WeaponComponent>();
+
+        Equipped.Initialize(this, reticle);
+
+        GripIK = Equipped.GripLocation;
+
+        PlayerAnim.SetInteger("WeaponType", (int)Equipped.stats.type);
     }
 
 
-    public void OnReload(InputAction.CallbackContext obj)
+    public void OnReload(InputValue obj)
+    {
+        StartReload();
+    }
+
+    public void StartReload()
     {
         Debug.Log("Reload");
         //PlayerAnim.SetBool("IsReloading", (obj.ReadValue<float>() == 1 ? true : false));
         PlayerAnim.SetBool("Reload", true);
+        Equipped.StartReloading();
+        playCon.IsReloading = true;
     }
 
-    public void OnFire(InputAction.CallbackContext obj)
+    public void OnFire(InputValue obj)
     {
+
+        //PlayerAnim.SetBool("IsFiring", (obj.Get<float>() == 1 ? true : false)) ;
+        //PlayerAnim.SetBool("IsFiring", isFiring);
+        // Look into Inputvalue.Ispressed
+
+        if(playCon.IsReloading || playCon.IsRunning)
+        {
+            return;
+        }
+
         Debug.Log("FIRE");
 
-        PlayerAnim.SetBool("IsFiring", (obj.ReadValue<float>() == 1 ? true : false)) ;
+        bool isFiring = obj.isPressed;
 
-        // Look into Inputvalue.Ispressed
+        if(isFiring)
+        {
+            StartFiring();
+        }
+        else
+        {
+            StopFiring();
+        }
+    }
+
+    private void StartFiring()
+    {
+        playCon.IsFiring = true;
+        Equipped.StartFiring();
+        PlayerAnim.SetBool("IsFiring", true);
+
+    }
+
+    public void StopFiring()
+    {
+        playCon.IsFiring = true;
+        Equipped.StopFiring();
+        PlayerAnim.SetBool("IsFiring", false);
+
     }
 
     public void EndReload()
     {
         PlayerAnim.SetBool("Reload", false);
+        Equipped.StopReloading();
+        playCon.IsReloading = false;
     }
 
     private void OnAnimatorIK(int layerIndex)
@@ -92,21 +141,21 @@ public class WeaponSocket : InputMonobehaviour
     private new void OnEnable()
     {
         base.OnEnable();
-        gameInput.ThirdPerson.Look.performed += OnLook;
-        gameInput.ThirdPerson.Reload.performed += OnReload;
-        gameInput.ThirdPerson.Fire.performed += OnFire;
+        //gameInput.ThirdPerson.Look.performed += OnLook;
+        //gameInput.ThirdPerson.Reload.performed += OnReload;
+        //gameInput.ThirdPerson.Fire.performed += OnFire;
 
     } 
 
     private new void OnDisable()
     {
         base.OnDisable();
-        gameInput.ThirdPerson.Look.performed -= OnLook;
-        gameInput.ThirdPerson.Reload.performed -= OnReload;
-        gameInput.ThirdPerson.Fire.performed -= OnFire;
+        //gameInput.ThirdPerson.Look.performed -= OnLook;
+        //gameInput.ThirdPerson.Reload.performed -= OnReload;
+        //gameInput.ThirdPerson.Fire.performed -= OnFire;
     }
 
-    private void OnLook(InputAction.CallbackContext obj)
+    private void OnLook(InputValue obj)
     {
    
         Vector3 independentMousePos = viewCamera.ScreenToViewportPoint(reticle.currentAimPosition);

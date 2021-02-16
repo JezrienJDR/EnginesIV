@@ -56,17 +56,20 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ReloadAnimScript.cs" />
     <Compile Include="Assets\ReticleScript.cs" />
+    <Compile Include="Assets\WeaponS\AK47.cs" />
     <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\New Controls.cs" />
     <Compile Include="Assets\MovementComponent.cs" />
     <Compile Include="Assets\InputMonobehaviour.cs" />
     <Compile Include="Assets\WeaponComponent.cs" />
     <Compile Include="Assets\PlayerController.cs" />
+    <Compile Include="Assets\CameraScript.cs" />
     <Compile Include="Assets\MyCons.cs" />
     <Compile Include="Assets\WeaponSocket.cs" />
     <Compile Include="Assets\Events\AppEvents.cs" />
-    <Compile Include="Assets\ReloadAnimScript.cs" />
+    <Compile Include="Assets\PlayerEvents.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\PolygonApocalypse\Materials\Misc\Shader\POLYGON_Zombies.shader" />

@@ -83,16 +83,21 @@ namespace Character
         {
             //Debug.Log(value.Get<Vector2>());
             inputVector = value.Get<Vector2>();
+           //float pressed = value.ReadValue<float>();
 
-            animr.SetFloat(x, inputVector.x);
-            animr.SetFloat(y, inputVector.y);
+            //if (pressed == 1)
+            {
+                animr.SetFloat(x, inputVector.x);
+                animr.SetFloat(y, inputVector.y);
+            }
+ 
         }
 
-        public void OnRun(InputValue val)
+        public void OnRun(InputAction.CallbackContext val)
         {
 
             // Just set both bools to isPressed!
-            if (val.isPressed)
+            if (val.ReadValue<float>() == 1)
             {
                 playCon.IsRunning = true;
                 animr.SetBool("isRunning", true);
@@ -117,7 +122,7 @@ namespace Character
         {
             myCons.Enable();
 
-            myCons.ThirdPerson.Move.performed += MovementPerformed;
+            //myCons.ThirdPerson.Move.performed += OnMove;
         }
 
         private void MovementPerformed(InputAction.CallbackContext obj)
@@ -127,7 +132,7 @@ namespace Character
 
         private void OnDisable()
         {
-            myCons.ThirdPerson.Move.performed -= MovementPerformed;
+            //myCons.ThirdPerson.Move.performed -= OnMove;
             myCons.Disable();
         }
 
